@@ -76,10 +76,15 @@ const AddProduct = () => {
     }
     try {
       setLoading(true);
-      await axiosInstance.post("/product/add", { ...values, image: imageUrl });
+      const res = await axiosInstance.post("/product/add", {
+        ...values,
+        image: imageUrl,
+      });
 
       navigate("/");
+      toast.success(res?.data?.message);
     } catch (error) {
+      toast.error(error?.response?.data?.message);
       console.log("Add product api hit failed...");
       console.log(error);
     } finally {

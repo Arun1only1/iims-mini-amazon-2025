@@ -4,13 +4,13 @@ import { Box, Button, CircularProgress, Pagination } from "@mui/material";
 import axiosInstance from "../../lib/axios.instance";
 // rafce => react arrow function component with export
 import { useNavigate } from "react-router";
+import Navbar from "../components/Navbar";
 const Home = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [totalPage, setTotalPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-
   useEffect(() => {
     const getProductList = async () => {
       try {
@@ -52,13 +52,14 @@ const Home = () => {
     >
       <Button
         variant="contained"
-        color="success"
+        color="secondary"
         onClick={() => {
           navigate("/add-product");
         }}
       >
         Add Product
       </Button>
+
       <Box
         sx={{
           display: "flex",
@@ -90,7 +91,7 @@ const Home = () => {
       <Pagination
         count={totalPage}
         page={currentPage}
-        color="primary"
+        color="secondary"
         onChange={(event, value) => {
           setCurrentPage(value);
         }}
