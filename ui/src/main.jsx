@@ -9,15 +9,16 @@ import AddProduct from "./pages/AddProduct";
 import EditProduct from "./pages/EditProduct";
 import ProductDetail from "./pages/ProductDetail";
 import Test from "./pages/Test";
+import AuthLayout from "../layout/AuthLayout";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <Routes>
       {/* protected routes-logged in user route */}
-      <Route>
+      <Route element={<AuthLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/add-product" element={<AddProduct />} />
-        <Route path="/edit-product" element={<EditProduct />} />
+        <Route path="/edit-product/:id" element={<EditProduct />} />
         <Route path="/product-detail/:id" element={<ProductDetail />} />
         <Route path="/test" element={<Test />} />
       </Route>

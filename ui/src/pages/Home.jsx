@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
-import { Box, Button, CircularProgress } from "@mui/material";
+import { Box, Button, CircularProgress, Pagination } from "@mui/material";
 import axiosInstance from "../../lib/axios.instance";
 // rafce => react arrow function component with export
 import { useNavigate } from "react-router";
@@ -9,14 +9,15 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const [totalPage, setTotalPage] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const getProductList = async () => {
       try {
         setLoading(true);
         const res = await axiosInstance.post("/product/list", {
-          page: 1,
-          limit: 10,
+          page: currentPage,
+          limit: 6,
         });
         setLoading(false);
         const productList = res?.data?.productList;
@@ -32,13 +33,23 @@ const Home = () => {
     };
 
     getProductList();
-  }, []);
+  }, [currentPage]);
 
   if (loading) {
     return <CircularProgress />;
   }
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "1rem",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "2rem",
+        margin: "3rem 0",
+      }}
+    >
       <Button
         variant="contained"
         color="success"
@@ -70,11 +81,21 @@ const Home = () => {
               price={item.price}
               quantity={item.quantity}
               description={item.description}
+              image={item.image}
             />
           );
         })}
       </Box>
-    </>
+
+      <Pagination
+        count={totalPage}
+        page={currentPage}
+        color="primary"
+        onChange={(event, value) => {
+          setCurrentPage(value);
+        }}
+      />
+    </Box>
   );
 };
 
